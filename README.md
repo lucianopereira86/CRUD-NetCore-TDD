@@ -1,4 +1,4 @@
-[titulo](/docs/titulo.JPG)
+![titulo](/docs/titulo.JPG)
 
 # CRUD-NetCore-TDD
 
@@ -35,4 +35,4 @@ With this bottom-up approach you will have a clear understanding of all the fail
 
 Our solution will have in the end 3 layers: web API, Infra and Test.
 
-[print01](/docs/print01.JPG)
+![print01](/docs/print01.JPG)
