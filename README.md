@@ -60,13 +60,15 @@ Open the Visual Studio 2019 and create a new .NET Core web application project a
 
 The default .NET Core web API will be created.  
 Delete the "Controllers/WeatherForecastController.cs" and "WeatherForecast.cs" files.
-Add a C# .NET Core class library project to the solution named "CRUD-NETCore-TDD.Infra".  
-Delete the "Class1.cs" file.
+Add a C# .NET Core class library project to the solution named "CRUD-NETCore-TDD.Infra".
+Delete the "Class1.cs" file as well.  
+The solution will look like this:
 
 ![print03](/docs/print03.JPG)
 
 Add a .NET Core xUnit Test Project to the solution and name it "CRUD-NETCore-TDD.Test".
-Delete the "UnitTest1.cs" file.
+Delete the "UnitTest1.cs" file.  
+The solution will look like this:
 
 ![print04](/docs/print04.JPG)
 
