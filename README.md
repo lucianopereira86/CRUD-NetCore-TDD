@@ -59,8 +59,7 @@ Open the Visual Studio 2019 and create a new .NET Core web application project a
 ![print02](/docs/print02.JPG)
 
 The default .NET Core web API will be created.  
-Delete the "Controllers/WeatherForecastController.cs" and "WeatherForecast.cs" files.
-Add a C# .NET Core class library project to the solution named "CRUD-NETCore-TDD.Infra". Delete the "Class1.cs" file as well.  
+Delete the "Controllers/WeatherForecastController.cs" and "WeatherForecast.cs" files. Add a C# .NET Core class library project to the solution named "CRUD-NETCore-TDD.Infra". Delete the "Class1.cs" file as well.  
 The solution will look like this:
 
 ![print03](/docs/print03.JPG)
