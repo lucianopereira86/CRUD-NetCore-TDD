@@ -69,8 +69,8 @@ The solution will look like this:
 
 ![print04](/docs/print04.JPG)
 
-Add a reference from the Infra project to the web API project.  
-Add a reference to the Test project from the other projects.
+Add a reference from the Infra project to the web API project and a reference to the Test project from the other ones.  
+The solution will look like this:
 
 ![print05](/docs/print05.JPG)
 
