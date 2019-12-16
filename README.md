@@ -103,9 +103,9 @@ namespace CRUD_NETCore_TDD.Test.Tests
 
 ```
 
-## Post User > Fact
+## Post User • Fact
 
-### Post User > Fact > RED Step
+### Post User • Fact • RED Step
 
 Our first test will run what we really want: to register a new user to the database. Write this code inside the **Fact_PostUser** method:
 
@@ -129,7 +129,7 @@ At first, there are no **User** class. Also, the "ctx" object should be an insta
 That is the **RED** step. We know what we want and what we have to do.  
 Before going to the **GREEN** step, change the method's name from "Fact_PostUser" to "Fact_PostUser_NoModelNoRepository", so it becomes clear what is missing for the method to run.
 
-### Post User > Fact > GREEN Step
+### Post User • Fact • GREEN Step
 
 Create a folder named "Models" inside the Infra project with a file named "User.cs".  
 Add the following code into it:
@@ -350,7 +350,7 @@ Run the tests with the Test Manager to see the result:
 Finally, our **GREEN** step is done!  
 Time to refactor the code.
 
-### Post User > Fact > REFACTOR Step
+### Post User • Fact • REFACTOR Step
 
 We will concentrate the database operations inside a repository class for the user entity.  
 Firstly, modify the "Fact_PostUser" method like this:
