@@ -38,7 +38,7 @@ Let's build a simple user CRUD web API by following the TDD steps with xUnit and
 ## TDD
 
 What's TDD?  
-It means [Test Driven Development](https://medium.com/tableless/tdd-test-driven-development-71ad9a69d465) and it consists in programming unit tests of core functionalities of a application before creating classes, projects, validations and other layers.  
+It means [Test Driven Development](https://medium.com/tableless/tdd-test-driven-development-71ad9a69d465) and it consists on programming unit tests for core functionalities of an application before creating classes, projects, validations and other layers.  
 During the development, there will be a cycle of three steps: **Red**, **Green** and **Refactor**.  
 The **Red** step needs the code goes wrong when executed, even by not compiling.  
 The **Green** step consists of a successful compilation and exacly what the unit test was expecting as result.  
