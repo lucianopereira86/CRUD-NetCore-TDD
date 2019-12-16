@@ -23,17 +23,17 @@ Let's build a simple user CRUD web API by following the TDD steps with xUnit and
 - [Test Project](#test-project)
   - [Post User](#post-user)
     - [Post User • Fact](#post-user--fact)
-      - [Post User • Fact • Red Step](#post-user--fact--red-step)
-      - [Post User • Fact • Green Step](#post-user--fact--green-step)
-      - [Post User • Fact • Refactor Step](#post-user--fact--refactor-step)
+      - [Red Step](#post-user--fact--red-step)
+      - [Green Step](#post-user--fact--green-step)
+      - [Refactor Step](#post-user--fact--refactor-step)
     - [Post User • Theory](#post-user--theory)
-      - [Post User • Theory • Red Step • Name](#post-user--theory--red-step--name)
-      - [Post User • Theory • Green Step • Name](#post-user--theory--green-step--name)
-      - [Post User • Theory • Refactor Step • Name](#post-user--theory--refactor-step--name)
-      - [Post User • Theory • Red Step • Age](#post-user--theory--red-step--age)
-      - [Post User • Theory • Green Step • Age](#post-user--theory--green-step--age)
+      - [Red Step • Name](#post-user--theory--red-step--name)
+      - [Green Step • Name](#post-user--theory--green-step--name)
+      - [Refactor Step • Name](#post-user--theory--refactor-step--name)
+      - [Red Step • Age](#post-user--theory--red-step--age)
+      - [Green Step • Age](#post-user--theory--green-step--age)
     - [Post User • Fact II](#post-user--fact-II)
-      - [Post User • Fact • Refactor Step II](#post-user--fact--refactor-step-II)
+      - [Refactor Step II](#post-user--fact--refactor-step-II)
 
 ## TDD
 
@@ -59,19 +59,18 @@ Open the Visual Studio 2019 and create a new .NET Core web application project a
 ![print02](/docs/print02.JPG)
 
 The default .NET Core web API will be created.  
-Delete the "Controllers/WeatherForecastController.cs" and "WeatherForecast.cs" files.
-Add a C# .NET Core class library project to the solution named "CRUD-NETCore-TDD.Infra".  
-Delete the "Class1.cs" file.
+Delete the "Controllers/WeatherForecastController.cs" and "WeatherForecast.cs" files. Add a C# .NET Core class library project to the solution named "CRUD-NETCore-TDD.Infra". Delete the "Class1.cs" file as well.  
+The solution will look like this:
 
 ![print03](/docs/print03.JPG)
 
-Add a .NET Core xUnit Test Project to the solution and name it "CRUD-NETCore-TDD.Test".
-Delete the "UnitTest1.cs" file.
+Add a .NET Core xUnit Test Project to the solution and name it "CRUD-NETCore-TDD.Test". Delete the "UnitTest1.cs" file.  
+The solution will look like this:
 
 ![print04](/docs/print04.JPG)
 
-Add a reference from the Infra project to the web API project.  
-Add a reference to the Test project from the other projects.
+Add a reference from the Infra project to the web API project and a reference to the Test project from the other ones.  
+The solution will look like this:
 
 ![print05](/docs/print05.JPG)
 
@@ -110,7 +109,7 @@ namespace CRUD_NETCore_TDD.Test.Tests
 
 ## Post User • Fact
 
-### Post User • Fact • Red Step
+### Red Step
 
 Our first test will run what we really want: to register a new user to the database. Write this code inside the **Fact_PostUser** method:
 
@@ -134,7 +133,7 @@ At first, there are no **User** class. Also, the "ctx" object should be an insta
 That is the **Red** step. We know what we want and what we have to do.  
 Before going to the **Green** step, change the method's name from "Fact_PostUser" to "Fact_PostUser_NoModelNoRepository", so it becomes clear what is missing for the method to run.
 
-### Post User • Fact • Green Step
+### Green Step
 
 Create a folder named "Models" inside the Infra project with a file named "User.cs".  
 Add the following code into it:
@@ -211,7 +210,7 @@ namespace CRUD_NETCore_TDD.Test.Tests
 ```
 
 Now, it is only missing the "ctx" object to make the code compile.  
-These will be need to install 3 packages:
+It will be necessary to install 3 packages through Nuget:
 
 - "Microsoft.EntityFrameworkCore" and "Microsoft.EntityFrameworkCore.SqlServer" packages inside the Infra project;
 - "Microsoft.EntityFrameworkCore.InMemory" package inside the Test project.
@@ -287,7 +286,7 @@ namespace CRUD_NETCore_TDD.Test.Tests
 
 ```
 
-The "BaseTest" class is responsive for instantiating the "MyContext" class and make it run in memory without the need of a database previously created. All the write and read operations will work perfectly. If another DbContext instance exists, it will be passed as parameter to the constructor.
+The "BaseTest" class is responsive for instantiating the "MyContext" class and make it run in memory without the need of a database previously created. All the write and read operations will work perfectly. If another "MyContext" instance exists, it will be passed as parameter to the constructor.
 
 Make the "PostUserTest" class to implement the "BaseTest" class and the code will be finally be able to compile. Copy and paste the "Fact_PostUser_NoRepository" method, comment the original and rename the copy to "Fact_PostUser". The code will be like this:
 
@@ -355,7 +354,7 @@ Run the tests with the Test Manager to see the result:
 Finally, our **Green** step is done!  
 Time to refactor the code.
 
-### Post User • Fact • Refactor Step
+### Refactor Step
 
 We will concentrate the database operations inside a repository class for the user entity.  
 Firstly, modify the "Fact_PostUser" method like this:
@@ -414,7 +413,7 @@ We are still far from finishing the POST tests. It's necessary to validate the u
 
 ## Post User • Theory
 
-### Post User • Theory • Red Step • Name
+### Red Step • Name
 
 The **Theory** must be used to test the INVALID values from an entity. Some VALID values might be used as well but only to confirm that the test works perfectly for what it was designed for.  
 Let's start testing the possible values for the User's "Name" attribute.  
@@ -470,7 +469,7 @@ public void Theory_PostUser_Name_NoValidation (string Name)
 
 All the validations will be implemented inside the "PostUserValidator" class. If one condition be disrespected, than the "val.IsValid" attribute will be false. It's time to go to the **Green** step.
 
-### Post User • Theory • Green Step • Name
+### Green Step • Name
 
 Inside the Infra project, install the "FluentValidation" package through Nuget, create a folder named "Validations" and add into it a file named "PostUserValidator.cs". It will be responsible for validating only the "User" class attributes required in the POST method.
 
@@ -509,7 +508,7 @@ All the conditions have been met except for the one containing a valid value ("L
 But there is still a problem... How to prove that an specific condition was met instead of another one?  
 We will solve this but adding error codes for each one. Time for refactoring...
 
-### Post User • Theory • Refactor Step • Name
+### Refactor Step • Name
 
 Change the "PostUserValidator" constructor by adding these lines:
 
@@ -599,7 +598,7 @@ public void Theory_PostUser_Name(string Name, int ErrorCode)
 }
 ```
 
-### Post User • Theory • Red Step • Age
+### Red Step • Age
 
 Let's do a **Theory** for the "Age" attribute.
 
@@ -621,7 +620,7 @@ public  void Theory_PostUser_Age(int Age, int ErrorCode)
 
 If you run the tests, there will error for all the values because we have not implemented the validation for the age yet. It must be greater than zero.
 
-### Post User • Theory • Green Step • Age
+### Green Step • Age
 
 Inside the PostUserValidators constructor, add the following lines:
 
@@ -650,7 +649,7 @@ Only the valid value (33) has not returned any error, so our tests are working c
 
 ## Post User • Fact II
 
-### Post User • Fact • Refactor Step II
+### Refactor Step II
 
 There is no need for another **Theory** for the "PostUserTest" but another **Fact** is required to validate the data. Rename the "Fact_PostUser" method to "Fact_PostUser_NoValidation" and create another one:
 
