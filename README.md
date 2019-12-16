@@ -286,7 +286,7 @@ namespace CRUD_NETCore_TDD.Test.Tests
 
 ```
 
-The "BaseTest" class is responsive for instantiating the "MyContext" class and make it run in memory without the need of a database previously created. All the write and read operations will work perfectly. If another DbContext instance exists, it will be passed as parameter to the constructor.
+The "BaseTest" class is responsive for instantiating the "MyContext" class and make it run in memory without the need of a database previously created. All the write and read operations will work perfectly. If another "MyContext" instance exists, it will be passed as parameter to the constructor.
 
 Make the "PostUserTest" class to implement the "BaseTest" class and the code will be finally be able to compile. Copy and paste the "Fact_PostUser_NoRepository" method, comment the original and rename the copy to "Fact_PostUser". The code will be like this:
 
