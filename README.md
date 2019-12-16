@@ -47,15 +47,13 @@ With this cycle you will have a clear understanding of all the failures and cert
 
 ## Project Structure
 
-Our solution will have 3 layers: web API, Infra and Test, as shown below:
+Initially, our solution will have 3 layers: web API, Infra and Test.
 
-![print01](/docs/print01.JPG)
-
-The web API layer will contain only one folder with Controllers.
+The web API layer will contain the controllers.
 The Infra layer will be responsible for the repositories and table models.
 The Test layer will have the unit tests for each funcionality to be built in the other layers.
 
-Now, let's create a solution!  
+Now, let's create the solution!  
 Open the Visual Studio 2019 and create a new .NET Core web application project and name it "CRUD-NETCore-TDD". Choose the API template and uncheck the HTTPS option:
 
 ![print02](/docs/print02.JPG)
