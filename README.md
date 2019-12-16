@@ -401,4 +401,8 @@ Run the test again:
 ![print07](/docs/print07.JPG)
 
 Our refactoring is complete!  
-But we are far from finishing POST tests. It's necessary to validate the user attributes before persist them in the database, so let's create our first **Theory**.
+If you have followed the instructions faithfully, then your project must be like this:
+
+![print08](/docs/print08.JPG)
+
+We are still far from finishing the POST tests. It's necessary to validate the user attributes before persist them in the database, so let's create our first **Theory**.
