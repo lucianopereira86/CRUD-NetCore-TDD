@@ -28,7 +28,7 @@ Let's build a simple user CRUD web API by following the TDD steps with xUnit and
       - [Post User > Fact > REFACTOR Step](#refactor-step)
     - [Post User > Theory](#theory)
 
-### TDD
+## TDD
 
 What's TDD?  
 It means [Test Driven Development](https://medium.com/tableless/tdd-test-driven-development-71ad9a69d465) and it consists in programming unit tests of core functionalities of a application before creating classes, projects, validations and other layers.  
@@ -38,7 +38,7 @@ The **GREEN** step consists of a successful compilation and exacly what the unit
 The **REFACTOR** step will be a refactoring of the code to become a new functionality like a new class or module.
 With this cycle you will have a clear understanding of all the failures and certainties that your program may have. The problem is that it requires a good amount of time to develop.
 
-### Project Structure
+## Project Structure
 
 Our solution will have 3 layers: web API, Infra and Test, as shown below:
 
@@ -70,7 +70,7 @@ Add a reference to the Test project from the other projects.
 
 ![print05](/docs/print05.JPG)
 
-### Test Project
+## Test Project
 
 It's time to begin the fun!  
 We will build tests for each CRUD method of the User entity by using Entity Framework Core structure.
@@ -78,7 +78,7 @@ There will be two types of unit tests: **Fact** and **Theory**.
 **Fact** is a method with a unique result without parameters.  
 **Theory** allow multiple parameters expecting for different results.
 
-#### Post User
+## Post User
 
 Add a folder named "Tests" to the Test Project with a file named "PostUserTest.cs" with the code below:
 
@@ -103,9 +103,9 @@ namespace CRUD_NETCore_TDD.Test.Tests
 
 ```
 
-##### Fact
+## Post User > Fact
 
-###### RED Step
+### Post User > Fact > RED Step
 
 Our first test will run what we really want: to register a new user to the database. Write this code inside the **Fact_PostUser** method:
 
@@ -129,7 +129,7 @@ At first, there are no **User** class. Also, the "ctx" object should be an insta
 That is the **RED** step. We know what we want and what we have to do.  
 Before going to the **GREEN** step, change the method's name from "Fact_PostUser" to "Fact_PostUser_NoModelNoRepository", so it becomes clear what is missing for the method to run.
 
-###### GREEN Step
+### Post User > Fact > GREEN Step
 
 Create a folder named "Models" inside the Infra project with a file named "User.cs".  
 Add the following code into it:
@@ -350,7 +350,7 @@ Run the tests with the Test Manager to see the result:
 Finally, our **GREEN** step is done!  
 Time to refactor the code.
 
-###### REFACTOR Step
+### Post User > Fact > REFACTOR Step
 
 We will concentrate the database operations inside a repository class for the user entity.  
 Firstly, modify the "Fact_PostUser" method like this:
