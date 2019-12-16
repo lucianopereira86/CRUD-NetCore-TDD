@@ -32,7 +32,8 @@ Let's build a simple user CRUD web API by following the TDD steps with xUnit and
       - [Post User • Theory • Refactor Step • Name](#post-user--theory--refactor-step--name)
       - [Post User • Theory • Red Step • Age](#post-user--theory--red-step--age)
       - [Post User • Theory • Green Step • Age](#post-user--theory--green-step--age)
-    - [Post User • Fact • Refactor Step II](#post-user--fact--refactor-step-II)
+    - [Post User • Fact II](#post-user--fact)
+      - [Post User • Fact • Refactor Step II](#post-user--fact--refactor-step-II)
 
 ## TDD
 
@@ -648,6 +649,8 @@ Run the tests again and this will be the result:
 ![print12](/docs/print12.JPG)
 
 Only the valid value (33) has not returned any error, so our tests are working correctly again!
+
+## Post User • Fact II
 
 ### Post User • Fact • Refactor Step II
 
