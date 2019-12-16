@@ -686,3 +686,7 @@ This time we are using the "Assert" class to ensure that the validation will be 
 This must be your project so far:
 
 ![print14](/docs/print14.JPG)
+
+## Coming soon...
+
+The PUT method will be the next to receive tests, repository and validation.
