@@ -23,19 +23,19 @@ Let's build a simple user CRUD web API by following the TDD steps with xUnit and
 - [Test Project](#test-project)
   - [Post User](#post-user)
     - [Post User • Fact](#post-user--fact)
-      - [Post User • Fact • RED Step](#post-user--fact--red-step)
-      - [Post User • Fact • GREEN Step](#post-user--fact--green-step)
-      - [Post User • Fact • REFACTOR Step](#post-user--fact--refactor-step)
+      - [Post User • Fact • Red Step](#post-user--fact--red-step)
+      - [Post User • Fact • Green Step](#post-user--fact--green-step)
+      - [Post User • Fact • Refactor Step](#post-user--fact--refactor-step)
     - [Post User • Theory](#post-user--theory)
 
 ## TDD
 
 What's TDD?  
 It means [Test Driven Development](https://medium.com/tableless/tdd-test-driven-development-71ad9a69d465) and it consists in programming unit tests of core functionalities of a application before creating classes, projects, validations and other layers.  
-During the development, there will be a cycle of three steps: **RED**, **GREEN** and **REFACTOR**.  
-The **RED** step needs the code goes wrong when executed, even by not compiling.
-The **GREEN** step consists of a successful compilation and exacly what the unit test was expecting as result.  
-The **REFACTOR** step will be a refactoring of the code to become a new functionality like a new class or module.
+During the development, there will be a cycle of three steps: **Red**, **Green** and **Refactor**.  
+The **Red** step needs the code goes wrong when executed, even by not compiling.
+The **Green** step consists of a successful compilation and exacly what the unit test was expecting as result.  
+The **Refactor** step will be a refactoring of the code to become a new functionality like a new class or module.
 With this cycle you will have a clear understanding of all the failures and certainties that your program may have. The problem is that it requires a good amount of time to develop.
 
 ## Project Structure
@@ -105,7 +105,7 @@ namespace CRUD_NETCore_TDD.Test.Tests
 
 ## Post User • Fact
 
-### Post User • Fact • RED Step
+### Post User • Fact • Red Step
 
 Our first test will run what we really want: to register a new user to the database. Write this code inside the **Fact_PostUser** method:
 
@@ -126,10 +126,10 @@ public void Fact_PostUser ()
 ```
 
 At first, there are no **User** class. Also, the "ctx" object should be an instance of the **DbContext** class, but there is no EF Core library installed yet to make the code to compile.
-That is the **RED** step. We know what we want and what we have to do.  
-Before going to the **GREEN** step, change the method's name from "Fact_PostUser" to "Fact_PostUser_NoModelNoRepository", so it becomes clear what is missing for the method to run.
+That is the **Red** step. We know what we want and what we have to do.  
+Before going to the **Green** step, change the method's name from "Fact_PostUser" to "Fact_PostUser_NoModelNoRepository", so it becomes clear what is missing for the method to run.
 
-### Post User • Fact • GREEN Step
+### Post User • Fact • Green Step
 
 Create a folder named "Models" inside the Infra project with a file named "User.cs".  
 Add the following code into it:
@@ -347,10 +347,10 @@ Run the tests with the Test Manager to see the result:
 
 ![print06](/docs/print06.JPG)
 
-Finally, our **GREEN** step is done!  
+Finally, our **Green** step is done!  
 Time to refactor the code.
 
-### Post User • Fact • REFACTOR Step
+### Post User • Fact • Refactor Step
 
 We will concentrate the database operations inside a repository class for the user entity.  
 Firstly, modify the "Fact_PostUser" method like this:
