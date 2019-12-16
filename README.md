@@ -210,7 +210,7 @@ namespace CRUD_NETCore_TDD.Test.Tests
 ```
 
 Now, it is only missing the "ctx" object to make the code compile.  
-It will be necessary to install 3 packages:
+It will be necessary to install 3 packages through Nuget:
 
 - "Microsoft.EntityFrameworkCore" and "Microsoft.EntityFrameworkCore.SqlServer" packages inside the Infra project;
 - "Microsoft.EntityFrameworkCore.InMemory" package inside the Test project.
