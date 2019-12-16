@@ -22,11 +22,11 @@ Let's build a simple user CRUD web API by following the TDD steps with xUnit and
 - [Project Structure](#project-structure)
 - [Test Project](#test-project)
   - [Post User](#post-user)
-    - [Fact](#red-step)
-      - [RED Step](#red-step)
-      - [GREEN Step](#green-step)
-      - [REFACTOR Step](#refactor-step)
-    - [Theory](#theory)
+    - [Post User > Fact](#red-step)
+      - [Post User > Fact > RED Step](#red-step)
+      - [Post User > Fact > GREEN Step](#green-step)
+      - [Post User > Fact > REFACTOR Step](#refactor-step)
+    - [Post User > Theory](#theory)
 
 ### TDD
 
