@@ -40,7 +40,7 @@ Let's build a simple user CRUD web API by following the TDD steps with xUnit and
 What's TDD?  
 It means [Test Driven Development](https://medium.com/tableless/tdd-test-driven-development-71ad9a69d465) and it consists on programming unit tests for core functionalities of an application before creating classes, projects, validations and other layers.  
 During the development, there will be a cycle of three steps: **Red**, **Green** and **Refactor**.  
-The **Red** step needs the code to go wrong when executed, even by not compiling.  
+The **Red** step needs the code to fail when executed, even by not compiling.  
 The **Green** step consists of a successful compilation and exacly what the unit test was expecting as result.  
 The **Refactor** step will be a refactoring of the code to become a new functionality like a new class or module.  
 With this cycle you will have a clear understanding of all the failures and certainties that your program may have. The problem is that it requires a good amount of time to develop.
