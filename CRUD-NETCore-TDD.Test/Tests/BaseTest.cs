@@ -1,6 +1,10 @@
-﻿using CRUD_NETCore_TDD.Infra.Repositories;
+﻿using CRUD_NETCore_TDD.Infra.Models;
+using CRUD_NETCore_TDD.Infra.Repositories;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System.Linq;
+using Xunit;
 
 namespace CRUD_NETCore_TDD.Test.Tests
 {
@@ -22,6 +26,18 @@ namespace CRUD_NETCore_TDD.Test.Tests
             dbContext.Database.EnsureDeleted();
             dbContext.Database.EnsureCreated();
             return dbContext;
+        }
+
+        protected void CheckError<T>(AbstractValidator<T> validator, int ErrorCode, T vm)
+        {
+            var val = validator.Validate(vm);
+            Assert.False(val.IsValid);
+
+            if (!val.IsValid)
+            {
+                bool hasError = val.Errors.Any(a => a.ErrorCode.Equals(ErrorCode.ToString()));
+                Assert.True(hasError);
+            }
         }
     }
 }

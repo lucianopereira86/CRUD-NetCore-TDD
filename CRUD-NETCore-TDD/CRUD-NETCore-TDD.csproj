@@ -9,5 +9,9 @@
     <ProjectReference Include="..\CRUD-NETCore-TDD.Infra\CRUD-NETCore-TDD.Infra.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
 
 </Project>
