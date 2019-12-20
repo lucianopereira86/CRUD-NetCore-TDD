@@ -8,6 +8,9 @@ namespace CRUD_NETCore_TDD.Test.Tests
 {
     public class PostUserTest: BaseTest
     {
+        public PostUserTest(MyContext ctx = null) : base(ctx)
+        {
+        }
         #region THEORY
         //[Theory]
         //[InlineData(null)]

@@ -1,4 +1,5 @@
 ﻿using CRUD_NETCore_TDD.Infra.Models;
+using System;
 
 namespace CRUD_NETCore_TDD.Infra.Repositories
 {
@@ -13,7 +14,20 @@ namespace CRUD_NETCore_TDD.Infra.Repositories
         {
             ctx.User.Add(user);
             ctx.SaveChanges();
+            ctx.Entry(user).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
             return user;
+        }
+
+        public void Put(User user)
+        {
+            ctx.User.Update(user);
+            ctx.SaveChanges();
+        }
+
+        public void Delete(User user)
+        {
+            ctx.User.Remove(user);
+            ctx.SaveChanges();
         }
     }
 }

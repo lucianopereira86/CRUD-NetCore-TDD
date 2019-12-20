@@ -34,6 +34,22 @@ Let's build a simple user CRUD web API by following the TDD steps with xUnit and
       - [Green Step • Age](#green-step--age)
     - [Post User • Fact II](#post-user--fact-II)
       - [Refactor Step II](#refactor-step-II)
+  - [Put User](#put-user)
+    - [Put User • Fact](#put-user--fact)
+      - [Red Step](#red-step)
+      - [Green Step](#green-step)
+    - [Put User • Theory](#put-user--theory)
+      - [Green Step](#green-step)
+  - [Get User](#get-user)
+    - [Get User • Fact](#get-user--fact)
+      - [Green Step](#green-step)
+    - [Get User • Theory](#get-user--theory)
+      - [Green Step • Id](#green-step--id)
+      - [Green Step • Name](#green-step--name)
+      - [Green Step • Age](#green-step--age)
+      - [Green Step • IsActive](#green-step--isactive)
+    - [Get User • Fact II](#get-user--fact-II)
+      - [Refactor Step II](#refactor-step-II)
 
 ## TDD
 
@@ -684,6 +700,473 @@ This must be your project so far:
 
 ![print14](/docs/print14.JPG)
 
-## Coming soon...
+## Put User
 
-The PUT method will be the next to receive tests, repository and validation.
+Create a file named "PutUserTest.cs" inside the folder "Tests" with the code below:
+
+```cs
+using Xunit;
+
+namespace CRUD_NETCore_TDD.Test.Tests
+{
+    public class PutUserTest: PostUserTest
+    {
+        public PutUserTest()
+        {
+            Fact_PostUser();
+        }
+        #region THEORY
+        #endregion
+        #region FACT
+        [Fact]
+        public void Fact_PutUser()
+        {
+        }
+        #endregion
+    }
+}
+```
+
+In order to test the PUT method, a POST is required inside the constructor.
+
+## Put User • Fact
+
+The fisrt **Fact** must update all the attributes from the User entity successfully, so add this code:
+
+```cs
+[Fact]
+public void Fact_PutUser()
+{
+    // EXAMPLE
+    var user = new User(1, "LUCIANO SOUSA", 30, false);
+
+    // REPOSITORY
+    ctx.User.Update(user);
+    ctx.SaveChanges();
+
+    // ASSERT
+    var _user = ctx.User.Find(user.Id);
+    Assert.Equal(JsonConvert.SerializeObject(user), JsonConvert.SerializeObject(_user));
+}
+```
+
+In the "ASSERT" section, the user is retrieved from the repository and compared to the entry object.
+
+### Red Step
+
+Copy the method, comment the original and rename the copy to "Fact_PutUser_NoValidationNoRepository". Modify the code as below:
+
+```cs
+ [Fact]
+public void Fact_PutUser_NoValidationNoRepository()
+{
+    // EXAMPLE
+    var user = new User(1, "LUCIANO SOUSA", 30, false);
+
+    // VALIDATION
+    var val = new PutUserValidator().Validate(user);
+    Assert.True(val.IsValid);
+
+    if (val.IsValid)
+    {
+        // REPOSITORY
+        new UserRepository(ctx).Put(user);
+
+        // ASSERT
+        var _user = ctx.User.Find(user.Id);
+        Assert.Equal(JsonConvert.SerializeObject(user), JsonConvert.SerializeObject(_user));
+    }
+}
+```
+
+We have accelerated the steps a bit by adding validation and a repository method.
+
+### Green Step
+
+Create the "PutUserValidator" class by implementing the "PostUserValidator" inside the "Validations" folder:
+
+```cs
+using FluentValidation;
+
+namespace CRUD_NETCore_TDD.Infra.Validations
+{
+    public class PutUserValidator: PostUserValidator
+    {
+        public PutUserValidator()
+        {
+            RuleFor(x => x.Id)
+                .Cascade(CascadeMode.StopOnFirstFailure)
+                .GreaterThan(0)
+                .WithErrorCode("103");
+        }
+    }
+}
+
+```
+
+Only the user id will be validated because the others will be responsibility of the super class.  
+Inside the "UserRepository" class, create the "Put" method with the content we have abstracted:
+
+```cs
+public void Put(User user)
+{
+    ctx.User.Update(user);
+    ctx.SaveChanges();
+}
+```
+
+If you test this **Fact**, it will happen this error:  
+_"System.InvalidOperationException : The instance of entity type 'User' cannot be tracked because another instance with the same key value for {'Id'} is already being tracked. When attaching existing entities, ensure that only one entity instance with a given key value is attached. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see the conflicting key values."_
+
+Basically, you will have to detach the user model inserted before the update. Inside the "UserRepository" class, modify the "Post" method:
+
+```cs
+public User Post(User user)
+{
+    ctx.User.Add(user);
+    ctx.SaveChanges();
+    ctx.Entry(user).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+    return user;
+}
+```
+
+Try it again and the update will be successful.
+Copy the method, comment the original and rename the copy to "Fact_PutUser".
+
+## Put User • Theory
+
+Due to these changes, our **Theory** has become very straight forward:
+
+### Green Step • Id
+
+```cs
+[Theory]
+[InlineData(0, 103)]
+public void Theory_PutUser_Id(int Id, int ErrorCode)
+{
+    var user = new User
+    {
+        Id = Id
+    };
+
+    CheckError(new PutUserValidator(), ErrorCode, user);
+}
+```
+
+## Get User
+
+Create a file named "GetUserTest.cs" inside the folder "Tests" with the code below:
+
+```cs
+using Xunit;
+
+namespace CRUD_NETCore_TDD.Test.Tests
+{
+    public class GetUserTest: BaseTest
+    {
+        public GetUserTest()
+        {
+            new PostUserTest(ctx).Fact_PostUser();
+        }
+        #region THEORY
+        #endregion
+        #region FACT
+        [Fact]
+        public void Fact_GetUser()
+        {
+
+        }
+        #endregion
+    }
+}
+
+```
+
+In order to test the GET method, a POST is required inside the constructor, but the "ctx" object must be passed as parameter to "PostUserTest"'s constructor, so modify the class:
+
+```cs
+public PostUserTest(MyContext ctx = null) : base(ctx)
+{
+}
+```
+
+## Get User • Fact
+
+### Green Step
+
+Apply filters for each User's attribute to return a list with only one result:
+
+```cs
+[Fact]
+public void Fact_GetUser()
+{
+    var user = new User(1, "LUCIANO PEREIRA", 33, true);
+
+    var users = ctx.User
+                    .Where(w =>
+                        w.Id == user.Id
+                        &&
+                        w.Name.Equals(user.Name)
+                        &&
+                        w.Age == user.Age
+                        &&
+                        w.IsActive == user.IsActive
+                    )
+                    .ToList();
+    // ASSERT
+    Assert.Equal(JsonConvert.SerializeObject(user), JsonConvert.SerializeObject(users.First()));
+}
+```
+
+Test the method to check the result. It should be green.
+
+## Get User • Theory
+
+There is no validation for GET method but we will test positive results for each attribute anyway.
+
+### Green Step • Id
+
+```cs
+[Theory]
+[InlineData(1)]
+public void Theory_GetUser_Id(int Id)
+{
+    var user = new User
+    {
+        Id = Id
+    };
+
+    var users = ctx.User
+                    .Where(w =>
+                        (user.Id == 0 || w.Id == user.Id)
+                    )
+                    .ToList();
+    // ASSERT
+    Assert.True(users.Count > 0);
+}
+
+```
+
+Pay attention to this part of the code:
+
+```
+(user.Id == 0 || w.Id == user.Id)
+```
+
+The left side of the "OR" operator contains what I call "logic door". It's a great technique to dismiss a filter if the value is not informed. In this case, if "user.Id" be 0 by default, it won't filter the query. The same goes for the other attributes.
+
+### Green Step • Name
+
+```cs
+[Theory]
+[InlineData("LUCIANO PEREIRA")]
+public void Theory_GetUser_Name(string Name)
+{
+    var user = new User
+    {
+        Name = Name
+    };
+
+    var users = ctx.User
+                    .Where(w =>
+                        (string.IsNullOrEmpty(user.Name) || w.Name.Equals(user.Name))
+                    )
+                    .ToList();
+    // ASSERT
+    Assert.True(users.Count > 0);
+}
+
+```
+
+### Green Step • Age
+
+```cs
+[Theory]
+[InlineData(33)]
+public void Theory_GetUser_Age(int Age)
+{
+    var user = new User
+    {
+        Age = Age
+    };
+
+    var users = ctx.User
+                    .Where(w =>
+                        (user.Age == 0 || w.Age == user.Age)
+                    )
+                    .ToList();
+    // ASSERT
+    Assert.True(users.Count > 0);
+}
+```
+
+### Green Step • IsActive
+
+```cs
+[Theory]
+[InlineData(true)]
+public void Theory_GetUser_IsActive(bool IsActive)
+{
+    var user = new User
+    {
+        IsActive = IsActive
+    };
+
+    var users = ctx.User
+                    .Where(w =>
+                        w.IsActive == user.IsActive
+                    )
+                    .ToList();
+    // ASSERT
+    Assert.True(users.Count > 0);
+}
+```
+
+Let's use the "logic door" applied to the filters inside the **Fact** as well:
+
+## Get User • Fact II
+
+### Refactor Step II
+
+Copy the method, comment the original and modify the copy:
+
+```cs
+[Fact]
+public void Fact_GetUser()
+{
+    var user = new User(1, "LUCIANO PEREIRA", 33, true);
+
+    var users = ctx.User
+                    .Where(w =>
+                        (user.Id == 0 || w.Id == user.Id)
+                        &&
+                        (string.IsNullOrEmpty(user.Name) || w.Name.Equals(user.Name))
+                        &&
+                        (user.Age == 0 || w.Age == user.Age)
+                        &&
+                        w.IsActive == user.IsActive
+                    )
+                    .ToList();
+    // ASSERT
+    Assert.Equal(JsonConvert.SerializeObject(user), JsonConvert.SerializeObject(users.First()));
+}
+```
+
+Test the "GetUserTest" class and everything should work.
+
+## Delete User
+
+Create a file named "DeleteUserTest.cs" inside the folder "Tests" with the code below:
+
+```cs
+using Xunit;
+
+namespace CRUD_NETCore_TDD.Test.Tests
+{
+    public class DeleteUserTest: BaseTest
+    {
+        public DeleteUserTest()
+        {
+            new PostUserTest().Fact_PostUser();
+        }
+        #region THEORY
+        #endregion
+        #region FACT
+        [Fact]
+        public void Fact_DeleteUser ()
+        {
+
+        }
+        #endregion
+    }
+}
+```
+
+In order to test the GET method, a POST is required inside the constructor.
+
+## Delete User • Fact
+
+Inside the **Fact** insert this code:
+
+```cs
+[Fact]
+public void Fact_DeleteUser ()
+{
+    var user = new User
+    {
+        Id = 1
+    };
+
+    ctx.User.Remove(user);
+    ctx.SaveChanges();
+
+    // ASSERT
+    var users = ctx.User.ToList();
+    Assert.True(users.Count == 0);
+}
+```
+
+Let's provide validation and repository access to the **Fact**, but first: copy the method, comment the original and rename the copy to "Fact_DeleteUser_ValidationNoRepository".
+
+### Red Step
+
+```cs
+[Fact]
+public void Fact_DeleteUser_NoValidationNoRepository()
+{
+    var user = new User
+    {
+        Id = 1
+    };
+
+    var val = new DeleteUserValidator().Validate(user);
+    Assert.True(val.IsValid);
+
+    if (val.IsValid)
+    {
+        new UserRepository(ctx).Delete(user);
+
+        // ASSERT
+        var users = ctx.User.ToList();
+        Assert.True(users.Count == 0);
+    }
+}
+```
+
+### Green Step
+
+Create the "DeleteUserValidator" class inside the "Validations" folder:
+
+```cs
+using CRUD_NETCore_TDD.Infra.Models;
+using FluentValidation;
+
+namespace CRUD_NETCore_TDD.Infra.Validations
+{
+    public class DeleteUserValidator : AbstractValidator<User>
+    {
+        public DeleteUserValidator()
+        {
+            RuleFor(x => x.Id)
+                .Cascade(CascadeMode.StopOnFirstFailure)
+                .GreaterThan(0)
+                .WithErrorCode("103");
+        }
+    }
+}
+
+```
+
+Create the "Delete" method inside the "UserRepository" class:
+
+```cs
+public void Delete(User user)
+{
+    ctx.User.Remove(user);
+    ctx.SaveChanges();
+}
+```
+
+Test the method to see if everything is alright.
+
+## Delete User • Theory
