@@ -111,6 +111,7 @@ namespace CRUD_NETCore_TDD.Test.Tests
 
 ### Red Step
 
+
 Our first test will run what we really want: to register a new user to the database. Write this code inside the **Fact_PostUser** method:
 
 ```cs
